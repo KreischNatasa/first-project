@@ -31,12 +31,10 @@
             // get json, build cards
             $.getJSON('db.json', function(data) {
                 $(data.reverse()).each(function(sorszam, ertek) {
-
                     // Ertekadas
                     var card = "<div id='sor" + sorszam + "' class='d-none nemlatszik'><div class='card' style='width: 18rem;''><div class='card-body'><h5 class='card-title'>" + ertek.cim + "</h5><p class='card-text'>" + ertek.tartalom + "</p><br><a href='#' class='btn btn-primary'>GOMBA</a></div></div></div>";
                     var star_e = "<i class='fas fa-star empty'></i>";
                     var star_f = "<i class='fas fa-star full'></i>";
-
                     // Kartyak felepitese
                     $("#kosar").append(card);
                     // -- csillagok

@@ -37,6 +37,7 @@
                     var star_f = "<i class='fas fa-star full'></i>";
                     // Kartyak felepitese
                     $("#kosar").append(card);
+
                     // -- csillagok
                     var i;
                     for (i = 1; i < 6; i++) {
@@ -44,9 +45,33 @@
                         if (i <= 5 - ertek.csillag) {
                             $("#sor" + sorszam + " p").after(star_e);
                         } else {
-                            $("#sor" + sorszam + " p").after(star_f)
+                            $("#sor" + sorszam + " p").after(star_f);
                         }
                     }
+
+                    // --- csillagok szavazas
+                    for (i = 1; i < 6; i++) {
+                        var star_empty = "<i id='csillag" + i + "' class='far fa-star star'></i>";
+                        $("#sor" + sorszam + " a").before(star_empty);
+                        if (i == 5) {
+                            $("#sor" + sorszam + " a").before("<br>");
+                        }
+                    }
+
+                    $("#sor" + sorszam + " .star").hover(function() {
+                        $(this).addClass("fas").removeClass("far");
+                    });
+
+                    $("#sor" + sorszam + " .star").mouseout(function() {
+                        $(this).addClass("far").removeClass("fas");
+                    });
+
+
+
+
+
+
+
                     // -- kartyak elrendezese, elrejtese
                     if (sorszam < 3) {
                         $("#sor" + sorszam).removeClass("d-none");

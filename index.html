@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link href="/fa/css/all.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <!--load all styles -->
+
+    <title>Hello, world!</title>
+</head>
+
+<body>
+    <div id="kosar" class="">
+
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function() {
+            // get json, build cards
+            $.getJSON('db.json', function(data) {
+                $(data.reverse()).each(function(sorszam, ertek) {
+
+                    // Ertekadas
+                    var card = "<div id='sor" + sorszam + "' class='d-none nemlatszik'><div class='card' style='width: 18rem;''><div class='card-body'><h5 class='card-title'>" + ertek.cim + "</h5><p class='card-text'>" + ertek.tartalom + "</p><br><a href='#' class='btn btn-primary'>GOMBA</a></div></div></div>";
+                    var star_e = "<i class='fas fa-star empty'></i>";
+                    var star_f = "<i class='fas fa-star full'></i>";
+
+                    // Kartyak felepitese
+                    $("#kosar").append(card);
+                    // -- csillagok
+                    var i;
+                    for (i = 1; i < 6; i++) {
+
+                        if (i <= 5 - ertek.csillag) {
+                            $("#sor" + sorszam + " p").after(star_e);
+                        } else {
+                            $("#sor" + sorszam + " p").after(star_f)
+                        }
+                    }
+                    // -- kartyak elrendezese, elrejtese
+                    if (sorszam < 3) {
+                        $("#sor" + sorszam).removeClass("d-none");
+                        $("#sor" + sorszam).removeClass("nemlatszik");
+                        $("#sor" + sorszam).addClass("d-flex");
+                    }
+                    if (sorszam % 2 === 0) {
+                        $("#sor" + sorszam).addClass("flex-row");
+                    } else {
+                        $("#sor" + sorszam).addClass("flex-row-reverse");
+                    }
+                });
+                // show-hide button code
+                const gomb = "<button id='show' type='button' class='btn btn-primary'>Show all</button>"
+                $("#kosar").append(gomb);
+                $("#show").click(function() {
+                    if ($(".nemlatszik").hasClass("d-none")) {
+                        $("#show").text("Hide all")
+                        $(".nemlatszik").addClass("d-flex").removeClass("d-none");
+                    } else {
+                        $("#show").text("Show all")
+                        $(".nemlatszik").addClass("d-none").removeClass("d-flex");
+                    }
+                });
+
+            });
+        });
+    </script>
+</body>
+
+</html>

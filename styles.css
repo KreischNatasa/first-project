@@ -1,0 +1,9 @@
+.empty {
+    font-size: 1.5em;
+    color: rgb(198, 198, 198);
+}
+
+.full {
+    font-size: 1.5em;
+    color: rgb(0, 0, 0);
+}

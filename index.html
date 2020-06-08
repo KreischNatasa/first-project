@@ -32,7 +32,7 @@
             $.getJSON('db.json', function(data) {
                 $(data.reverse()).each(function(sorszam, ertek) {
                     // Ertekadas
-                    var card = "<div id='sor" + sorszam + "' class='d-none nemlatszik'><div class='card' style='width: 18rem;''><div class='card-body'><h5 class='card-title'>" + ertek.cim + "</h5><p class='card-text'>" + ertek.tartalom + "</p><br><a href='#' class='btn btn-primary'>GOMBA</a></div></div></div>";
+                    var card = "<div id='sor" + sorszam + "' class='d-none nemlatszik'><div class='card' style='width: 18rem;''><div class='card-body'><h5 class='card-title'>" + ertek.cim + "</h5><p class='card-text'>" + ertek.tartalom + "</p><br><div id='stars" + sorszam + "'></div><a href='#' class='btn btn-primary'>GOMBA</a></div></div></div>";
                     var star_e = "<i class='fas fa-star empty'></i>";
                     var star_f = "<i class='fas fa-star full'></i>";
                     // Kartyak felepitese
@@ -41,7 +41,6 @@
                     // -- csillagok
                     var i;
                     for (i = 1; i < 6; i++) {
-
                         if (i <= 5 - ertek.csillag) {
                             $("#sor" + sorszam + " p").after(star_e);
                         } else {
@@ -49,27 +48,41 @@
                         }
                     }
 
-                    // --- csillagok szavazas
+                    // --- CSILLAGOK szavazas
                     for (i = 1; i < 6; i++) {
-                        var star_empty = "<i id='csillag" + i + "' class='far fa-star star'></i>";
-                        $("#sor" + sorszam + " a").before(star_empty);
-                        if (i == 5) {
-                            $("#sor" + sorszam + " a").before("<br>");
-                        }
+                        var star_empty = "<i id='star" + i + "' class='far fa-star star'></i>";
+                        $("#stars" + sorszam).append(star_empty);
                     }
-
-                    $("#sor" + sorszam + " .star").hover(function() {
-                        $(this).addClass("fas").removeClass("far");
+                    var star_value = "<p id='star_value' class='d-none'>0</p>";
+                    $("#stars" + sorszam).append(star_value);
+                    // ----- CSILLAGOK Mouse ENTER function
+                    $("#stars" + sorszam + " .star").mouseenter(function() {
+                        var a_star = parseInt($(this).attr("id").substring(4, 5));
+                        for (i = 1; i <= 5; i++) {
+                            if (i <= a_star) {
+                                $("#stars" + sorszam + " #star" + i).addClass("fas").removeClass("far");
+                            } else {
+                                $("#stars" + sorszam + " #star" + i).addClass("far").removeClass("fas");
+                            }
+                        }
                     });
-
-                    $("#sor" + sorszam + " .star").mouseout(function() {
-                        $(this).addClass("far").removeClass("fas");
+                    // ----- CSILLAGOK Mouse LEAVE function
+                    $("#sor" + sorszam + " .star").mouseleave(function() {
+                        var star_val = parseInt($("#sor" + sorszam + " #star_value").text());
+                        for (i = 1; i <= 5; i++) {
+                            if (i <= star_val) {
+                                $("#stars" + sorszam + " #star" + i).addClass("fas").removeClass("far");
+                            } else {
+                                $("#stars" + sorszam + " #star" + i).addClass("far").removeClass("fas");
+                            }
+                        }
                     });
-
-
-
-
-
+                    // ----- CSILLAGOK Mouse CLICK function
+                    $("#stars" + sorszam + " .star").click(function() {
+                        var a_star = parseInt($(this).attr("id").substring(4, 5));
+                        $("#stars" + sorszam + " #star_value").text(a_star);
+                        console.log(a_star);
+                    });
 
 
                     // -- kartyak elrendezese, elrejtese
